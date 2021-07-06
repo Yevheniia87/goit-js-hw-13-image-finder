@@ -22,7 +22,8 @@ const newsApiService = new NewsApiService();
 
 
 refs.searchForm.addEventListener('submit', onSearch);
-loadMoreBtn.refs.button.addEventListener('click', fetchCards);
+// loadMoreBtn.refs.button.addEventListener('click', fetchCards);
+loadMoreBtn.refs.button.addEventListener('click', onLoadMore);
 refs.galleryCards.addEventListener('click', onOpenModal);
 
 function onSearch(e) {
@@ -65,11 +66,13 @@ function fetchCards() {
                 closerHover: true,
             });
         }
-    });
-    
-};
-
-
+        // const onLoadMore = document.getElementById('search-gallery');
+        //     onLoadMore.scrollIntoView({  
+        //         behavior: 'smooth',
+        //         block: 'end',
+        //     });
+    });    
+}
 function appendHitsMarkup(hits) {
     refs.galleryCards.insertAdjacentHTML('beforeend', photoCardTpl(hits));
 }
@@ -81,6 +84,15 @@ function onOpenModal(e) {
         return;
     }
       const largeImageURL = `<img src= ${e.target.dataset.source}>`;
-  basicLightbox.create(largeImageURL).show();
+    basicLightbox.create(largeImageURL).show();
 }
-
+function onLoadMore() {
+    fetchCards().then(setTimeout(() => {
+        window.scrollTo({
+            top: document.documentElement.offsetHeight,
+            behavior: 'smooth',
+            block: 'end'
+        });
+    }, 1000),
+    ).catch(error => console.log(error));
+}
