@@ -83,16 +83,43 @@ function onOpenModal(e) {
     if (e.target.nodeName !== 'IMG') {
         return;
     }
-      const largeImageURL = `<img src= ${e.target.dataset.source}>`;
+      const largeImageURL = `<img src= "${e.target.dataset.sourse}" alt = "" >`;
     basicLightbox.create(largeImageURL).show();
 }
+
+//scroll with button
+
+// function onLoadMore() {
+//     fetchCards().then(setTimeout(() => {
+//         window.scrollTo({
+//             top: document.documentElement.offsetHeight,
+//             behavior: 'smooth',
+//             block: 'end'
+//         });
+//     }, 1000),
+//     ).catch(error => console.log(error));
+// }
+
+//avtoscroll
+
+let last_known_scroll_position = 0;
+let ticking = false;
 function onLoadMore() {
-    fetchCards().then(setTimeout(() => {
+      fetchCards().then(setTimeout(() => {
         window.scrollTo({
-            top: document.documentElement.offsetHeight,
             behavior: 'smooth',
             block: 'end'
         });
     }, 1000),
     ).catch(error => console.log(error));
-}
+};
+window.addEventListener('scroll', function (e) {
+    last_known_scroll_position = window.scrollY;
+    if (!ticking) {
+        window.requestAnimationFrame(function () {
+            onLoadMore(last_known_scroll_position);
+            ticking = false;
+        });
+        ticking = true;
+    }
+});

@@ -1,4 +1,5 @@
-export default class NewsApiService {
+export default
+    class NewsApiService {
     constructor() {
         this.searchQuery = '';
         this.page = 1;

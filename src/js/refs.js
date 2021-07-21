@@ -5,5 +5,6 @@ export default
         galleryCards: document.querySelector('.gallery'),
         searchBtn: document.querySelector('.button-search'),
         searchMore: document.querySelector('.button'),
+        
     };
 }
